@@ -1,4 +1,4 @@
-package com.example.HolaSpring.models;
+package com.example.HolaSpring.Models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;

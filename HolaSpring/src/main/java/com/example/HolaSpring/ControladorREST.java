@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,33 +15,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.HolaSpring.Models.Libro;
+import com.example.HolaSpring.Models.Usuario;
+import com.example.HolaSpring.Services.IOrderService;
 import com.example.HolaSpring.Services.OrderService;
-import com.example.HolaSpring.models.Libro;
-import com.example.HolaSpring.models.Usuario;
 import com.example.HolaSpring.myBeans.MiBean;
+import com.example.HolaSpring.myBeans.MiComponent;
 
 @RestController
 public class ControladorREST {
-	
-	/** DEPENDENCIA DURA ----- INCORRECTO
-	private OrderService orderService = new OrderService();
-	**/
-	
+
+	/**
+	 * DEPENDENCIA DURA ----- INCORRECTO
+	 * private OrderService orderService = new OrderService();
+	 **/
+
 	/** DEPENDENCIA DINAMICA **/
-	private OrderService orderService;
+	private IOrderService orderService;
 	private MiBean miBean;
-	
-	public ControladorREST(OrderService orderService, MiBean miBean){
+	private MiComponent miComponent;
+
+	public ControladorREST(IOrderService orderService, MiBean miBean, MiComponent miComponent) {
 		this.orderService = orderService;
 		this.miBean = miBean;
+		this.miComponent = miComponent;
 	}
-	/*****/
-	
-	/** DEPENDENCIA DINAMICA CON BEANS
-	@Autowired
-	private OrderService orderService;
-	**/
 
+	/*****/
+
+	/**
+	 * DEPENDENCIA EN ATRIBUTO
+	 * 
+	 * @Autowired
+	 *            private OrderService orderService;
+	 **/
 
 	private final Logger logger = LoggerFactory.getLogger(ControladorREST.class);
 
@@ -61,12 +67,15 @@ public class ControladorREST {
 		return "Leyendo el libro id: " + id + ", params: " + params;
 	}
 
-	/*
-	 * @PostMapping("/libro") public String guardarLibro(@RequestBody Map<String,
-	 * Object> libro) { libro.keySet().forEach(llave -> {
-	 * logger.info("llave {} valor {}", llave, libro.get(llave)); }); return
-	 * "Libro guardado"; }
-	 */
+	/* MAPEO DE OBJETO JSON A MAP 
+	@PostMapping("/libro")
+	public String guardarLibro(@RequestBody Map<String, Object> libro) {
+		libro.keySet().forEach(llave -> {
+			logger.info("llave {} valor {}", llave, libro.get(llave));
+		});
+		return "Libro guardado";
+	}
+	*/
 
 	@PostMapping("/libro")
 	public String guardarLibro(@RequestBody Libro libro) {
@@ -75,9 +84,8 @@ public class ControladorREST {
 	}
 
 	/*
-	 * @ResponseStatus(value = HttpStatus.MOVED_PERMANENTLY, reason =
-	 * "Fue movida a otro version") Se utliliza para informa al consumidor que la
-	 * ruta ya no esta en uso
+	 * @ResponseStatus(value = HttpStatus.MOVED_PERMANENTLY, reason = "Fue movida a otro version") 
+	 * Se utliliza para informa al consumidor que la ruta ya no esta en uso
 	 */
 
 	@GetMapping("/saludar")
@@ -104,29 +112,35 @@ public class ControladorREST {
 	@GetMapping("/userData")
 	public ResponseEntity<String> getUserData() {
 		return ResponseEntity.status(HttpStatus.OK)
-				.header("Content-type","application/json")
+				.header("Content-type", "application/json")
 				.body("{\"nombre\":\"estuardo\"}");
 	}
-	
+
 	@GetMapping("/userData/v2")
-	public Map<String, Map<String,Object>> getUserDataV2() {
-		return Map.of("user",Map.of("nombre","estuardo","edad",25));
+	public Map<String, Map<String, Object>> getUserDataV2() {
+		return Map.of("user", Map.of("nombre", "estuardo", "edad", 25));
 	}
-	
+
 	@GetMapping("/userData/v3")
 	public Usuario getUserDataV3() {
-		return new Usuario("estuardo",22,"ingenieria");
+		return new Usuario("estuardo", 22, "ingenieria");
 	}
-	
+
 	@PostMapping("/order")
-	public String crearOrden(@RequestBody List<Product>datos) {
+	public String crearOrden(@RequestBody List<Product> datos) {
 		orderService.saveProduct(datos);
 		return "";
 	}
-	
+
 	@GetMapping("/mibean")
 	public String saludarDesdeBean() {
 		miBean.saludar();
+		return "Completado";
+	}
+
+	@GetMapping("/micomponent")
+	public String saludarDesdeComponent() {
+		miComponent.saludar();
 		return "Completado";
 	}
 }
