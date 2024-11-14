@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.HolaSpring.Services.OrderService;
 import com.example.HolaSpring.models.Libro;
 import com.example.HolaSpring.models.Usuario;
+import com.example.HolaSpring.myBeans.MiBean;
 
 @RestController
 public class ControladorREST {
 	
+	/** DEPENDENCIA DURA ----- INCORRECTO
 	private OrderService orderService = new OrderService();
+	**/
+	
+	/** DEPENDENCIA DINAMICA **/
+	private OrderService orderService;
+	private MiBean miBean;
+	
+	public ControladorREST(OrderService orderService, MiBean miBean){
+		this.orderService = orderService;
+		this.miBean = miBean;
+	}
+	/*****/
+	
+	/** DEPENDENCIA DINAMICA CON BEANS
+	@Autowired
+	private OrderService orderService;
+	**/
+
 
 	private final Logger logger = LoggerFactory.getLogger(ControladorREST.class);
 
@@ -102,5 +122,11 @@ public class ControladorREST {
 	public String crearOrden(@RequestBody List<Product>datos) {
 		orderService.saveProduct(datos);
 		return "";
+	}
+	
+	@GetMapping("/mibean")
+	public String saludarDesdeBean() {
+		miBean.saludar();
+		return "Completado";
 	}
 }
