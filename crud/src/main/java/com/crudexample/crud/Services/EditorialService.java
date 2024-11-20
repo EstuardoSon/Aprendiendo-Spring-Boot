@@ -18,15 +18,26 @@ public class EditorialService {
     }
 
     public String saveEditorial(Editorial editorial) {
-        if (editorial.getId() == null) {
-            editorialRepository.save(editorial);
-            return "Editorial guardado";
-        } else {
-            if (editorialRepository.existsById(editorial.getId())) {
-                return "Editorial ya existe";
-            }
-            throw new IllegalArgumentException("Bad Request");
+        if (editorialRepository.existsById(editorial.getId())) {
+            return "Editorial ya existe";
         }
+        editorialRepository.save(editorial);
+        return "Editorial guardado";
+    }
 
+    public String deleteEditorial(int idEditorial) {
+        if (editorialRepository.existsById(idEditorial)) {
+            editorialRepository.deleteById(idEditorial);
+            return "Editorial eliminado";
+        }
+        throw new IllegalArgumentException("Editorial no existe");
+    }
+
+    public String updateEditorial(Editorial editorial) {
+        if (editorialRepository.existsById(editorial.getId())) {
+            editorialRepository.save(editorial);
+            return "Editorial actualizado";
+        }
+        throw new IllegalArgumentException("Editorial no existe");
     }
 }

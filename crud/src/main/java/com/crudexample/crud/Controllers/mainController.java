@@ -11,10 +11,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@CrossOrigin(origins = "http://example.com", maxAge = 3600)
 @RestController
 public class mainController {
 
@@ -31,4 +36,13 @@ public class mainController {
         return ResponseEntity.ok(editorialService.saveEditorial(editorial));
     }
 
+    @DeleteMapping("/deleteEditorial")
+    public ResponseEntity<String> deleteMethodName(@RequestParam int editorial) {
+        return ResponseEntity.ok(editorialService.deleteEditorial(editorial));
+    }
+
+    @PutMapping("/updateEditorial")
+    public ResponseEntity<String> updateMethodName(@Valid @RequestBody Editorial editorial) {
+        return ResponseEntity.ok(editorialService.updateEditorial(editorial));
+    }
 }
