@@ -21,7 +21,7 @@ public class libroController {
 
     @GetMapping("/libros")
     public List<Libro> getMethodName() {
-        return libroService.getLibros();
+        return libroService.getAllLibros();
     }
     
 }

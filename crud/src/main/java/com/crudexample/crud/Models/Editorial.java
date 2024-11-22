@@ -3,7 +3,15 @@ package com.crudexample.crud.Models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "Editoriales")
 public class Editorial {
@@ -27,54 +35,4 @@ public class Editorial {
     @NotNull(message = "Email may not be null") 
     @NotBlank(message = "Email is required")
     private String email;
-
-    public Editorial(){}
-
-    public Editorial(Integer id, String nombre, String direccion, String telefono, String email) {
-        this.id = id;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.email = email;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

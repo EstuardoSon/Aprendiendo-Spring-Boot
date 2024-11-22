@@ -10,9 +10,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Libros")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,60 +42,4 @@ public class Libro {
     private Editorial editorial;
     
     private Float precio;
-
-    public Integer getIdLibro() {
-        return idLibro;
-    }
-
-    public void setIdLibro(Integer idLibro) {
-        this.idLibro = idLibro;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public Date getFechaPublicacion() {
-        return fechaPublicacion;
-    }
-
-    public void setFechaPublicacion(Date fechaPublicacion) {
-        this.fechaPublicacion = fechaPublicacion;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Editorial getEditorial() {
-        return editorial;
-    }
-
-    public void setEditorial(Editorial editorial) {
-        this.editorial = editorial;
-    }
-
-    public Float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Float precio) {
-        this.precio = precio;
-    }
 }
