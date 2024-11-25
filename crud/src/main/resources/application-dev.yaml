@@ -1,0 +1,21 @@
+# Profiles
+## Development
+spring:
+    application:
+        name: crud
+    ### Environment Variables
+    config:
+        import: file:.env[.properties]
+        activate:
+            on-profile: dev
+    ### Database
+    jpa:
+        hibernate:
+            ddl-auto: update
+    datasource:
+        url: jdbc:mysql://${DB_HOST}:3306/Biblioteca
+        username: ${DB_USER}
+        password: ${DB_PASS}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+    port: 8070
