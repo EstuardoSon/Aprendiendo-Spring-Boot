@@ -13,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.crudexample.crud.Models.Editorial;
 
+import jakarta.validation.ConstraintViolationException;
+
 @DataJpaTest
 public class EditorialRepositoryTest {
 
@@ -33,7 +35,7 @@ public class EditorialRepositoryTest {
                 .telefono("123456789")
                 .email("editorial@gmail.com").build();
 
-        entityManager.persist(editorial);    
+        entityManager.persist(editorial);
     }
 
     @Test
@@ -50,9 +52,16 @@ public class EditorialRepositoryTest {
                 .direccion("Direccion 1")
                 .telefono("123456789")
                 .email("editorial@gmail.com").build();
-        
-        log.info("Editorial: " + editorial);
-        editorialRepository.save(editorial);
+
+        editorialRepository.save(newEditorial);
         Assertions.assertNotNull(editorialRepository.findById(newEditorial.getId()));
+    }
+
+    @Test
+    public void testFailSaveEditorial() {
+        Assertions.assertThrows(ConstraintViolationException.class, () -> {
+            Editorial editorialTest = Editorial.builder().id(null).nombre(null).build();
+            editorialRepository.save(editorialTest);
+        });
     }
 }
