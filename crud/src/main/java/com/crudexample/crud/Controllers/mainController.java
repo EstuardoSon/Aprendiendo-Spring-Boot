@@ -27,22 +27,22 @@ public class mainController {
     private EditorialService editorialService;
 
     @GetMapping("/editoriales")
-    public List<Editorial> getLenguajes() {
+    public List<Editorial> getEditoriales() {
         return editorialService.getAllEditoriales();
     }
 
     @PostMapping("/postEditorial")
-    public ResponseEntity<String> postMethodName(@Valid @RequestBody Editorial editorial) {
+    public ResponseEntity<String> postEditorial(@Valid @RequestBody Editorial editorial) {
         return ResponseEntity.ok(editorialService.saveEditorial(editorial));
     }
 
     @DeleteMapping("/deleteEditorial")
-    public ResponseEntity<String> deleteMethodName(@RequestParam int editorial) {
+    public ResponseEntity<String> deleteEditorial(@RequestParam int editorial) {
         return ResponseEntity.ok(editorialService.deleteEditorial(editorial));
     }
 
     @PutMapping("/updateEditorial")
-    public ResponseEntity<String> updateMethodName(@Valid @RequestBody Editorial editorial) {
+    public ResponseEntity<String> updateEditorial(@Valid @RequestBody Editorial editorial) {
         return ResponseEntity.ok(editorialService.updateEditorial(editorial));
     }
 }
